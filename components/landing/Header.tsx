@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 
 import {
     NavigationMenu,
@@ -28,7 +28,7 @@ const Header = () => {
 
     return (
         <header
-            className='text-white bg-transparent absolute top-0 left-1/2 -translate-x-1/2 py-8 w-full max-w-250 mx-auto z-99'
+            className='text-white bg-transparent w-full max-w-250 mx-auto z-99 px-4 md:px-0'
         >
             <nav className="flex items-center justify-between w-full relative">
                 <Link

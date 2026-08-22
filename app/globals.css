@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -123,8 +126,24 @@
   }
   body {
     @apply bg-background text-foreground;
-  }
-  html {
-    @apply font-sans;
+    font-family: "Roboto", sans-serif;
+    font-style: normal;
   }
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "EB Garamond", serif;
+  font-style: normal;
+}
+
+/* .auth{
+  background-image: url('/auth/authbg-2.avif');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+} */
