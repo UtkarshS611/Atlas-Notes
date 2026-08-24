@@ -8,11 +8,13 @@ import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { Eye, EyeOff } from "lucide-react"
+
 import {
     SignInSchema,
     type SignInFormData,
-} from "@/lib/auth/auth";
-import { signInWithEmail } from "@/lib/auth/signin";
+    signInWithEmail
+} from "@/lib/supabase/auth";
 
 import { Button } from "@/components/ui/button";
 
@@ -20,6 +22,7 @@ export function SignInForm() {
     const router = useRouter();
 
     const [serverError, setServerError] = useState<string | null>(null);
+    const [typePassword, setTypePassword] = useState<"password" | "text">("password");
 
     const {
         register,
@@ -32,6 +35,10 @@ export function SignInForm() {
             password: "",
         },
     });
+
+    const togglePasswordVisibility = () => {
+        setTypePassword((prev) => (prev === "password" ? "text" : "password"));
+    }
 
     const onSubmit = async (values: SignInFormData) => {
         try {
@@ -88,13 +95,28 @@ export function SignInForm() {
                         className="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50">
                         Password
                     </label>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        {...register("password")}
-                        className="h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40"
-                    />
+                    <div className="relative">
 
+                        <input
+                            type={typePassword}
+                            placeholder="Password"
+                            {...register("password")}
+                            className="h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40"
+                        />
+                        {typePassword === "password" ?
+                            <Eye
+                                onClick={togglePasswordVisibility}
+                                size={18}
+                                className="absolute right-2 top-1/2 -translate-y-1/2"
+                            />
+                            :
+                            <EyeOff
+                                onClick={togglePasswordVisibility}
+                                size={18}
+                                className="absolute right-2 top-1/2 -translate-y-1/2"
+                            />
+                        }
+                    </div>
                     {errors.password && (
                         <p className="text-red-500 text-sm">{errors.password.message}</p>
                     )}
