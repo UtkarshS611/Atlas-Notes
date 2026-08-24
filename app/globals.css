@@ -141,9 +141,9 @@ h6 {
   font-style: normal;
 }
 
-/* .auth{
-  background-image: url('/auth/authbg-2.avif');
+.auth{
+  background-image: url('/auth/authbg.webp');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-} */
+}

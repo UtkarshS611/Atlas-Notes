@@ -58,14 +58,12 @@ export function SignInForm() {
     };
 
     return (
-        <div className="bg-background w-full max-w-md rounded-2xl px-4 py-6 shadow-xl border border-input">
+        <div className="bg-background w-full max-w-md rounded-2xl px-4 py-6 shadow-2xl border border-input">
             <div className="text-center flex flex-col justify-center items-center gap-1">
                 <div className="h-12 w-12 bg-blue-400 rounded-full aspect-square my-5"></div>
                 <h2 className="text-4xl font-medium">Welcome Back</h2>
                 <p className="text-sm">Enter your details to get started</p>
             </div>
-
-
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="mt-12 space-y-4"
