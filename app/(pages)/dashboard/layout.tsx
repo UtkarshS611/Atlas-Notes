@@ -62,13 +62,12 @@ export default function DashboardLayout({
                         aria-hidden="true"
                     />
                 )}
-
                 {/* Sidebar */}
                 <DashboardSidebar
                     open={sidebarOpen}
                     onClose={closeSidebar}
                 />
-                <div>
+                <div className="flex-1">
                     <DashboardHeader
                         sidebarOpen={sidebarOpen}
                         onSidebarToggle={() => setSidebarOpen((prev) => !prev)}

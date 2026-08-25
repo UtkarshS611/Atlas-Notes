@@ -1,7 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { FileText, Plus } from "lucide-react";
+
+import { Plus } from "lucide-react";
+
+import User from "@/components/dashboard/User";
+
+import { Button } from "@/components/ui/button";
 
 interface Document {
     id: string;
@@ -14,17 +19,23 @@ interface DashboardSidebarProps {
     documents?: Document[];
 }
 
+
 export default function DashboardSidebar({
     open,
     onClose,
-    documents = [],
 }: DashboardSidebarProps) {
+
+    const documents = [
+        { id: "1", title: "Document 1" },
+        { id: "2", title: "Document 2" },
+        { id: "3", title: "Document 3" },
+    ]
     return (
-        <div
+        <aside
             className={`
-                        shrink-0
                         min-h-screen
-                        bg-background
+                        shrink-0
+                        bg-sidebar
                         border-r
 
                         // desktop transitions
@@ -49,71 +60,55 @@ export default function DashboardSidebar({
                         `}
         >
             <div className="flex h-full w-64 flex-col">
-                <div className="flex items-center gap-2 py-3 px-5">
-                    <div className="h-8 w-8 rounded-full aspect-square bg-blue-400" />
-                    <Link
-                        href="/dashboard"
-                        className="text-xl font-semibold tracking-tight"
-                        onClick={onClose}
-                    >
-                        Atlas Notes
-                    </Link>
-                </div>
-                <div className="px-3">
-                    <button
-                        type="button"
-                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-                    >
-                        <Plus className="size-4" />
-                        New document
-                    </button>
-                </div>
-
-                {/* Documents */}
-                <div className="mt-6 flex-1 overflow-y-auto px-3">
-                    <p className="mb-2 px-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                        Documents
-                    </p>
-
-                    <div className="space-y-1">
-                        {documents.map((document) => (
-                            <Link
-                                key={document.id}
-                                href={`/dashboard/${document.id}`}
-                                onClick={onClose}
-                                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground
-                "
-                            >
-                                <FileText className="size-4 shrink-0" />
-
-                                <span className="truncate">
-                                    {document.title || "Untitled document"}
-                                </span>
-                            </Link>
-                        ))}
+                <div>
+                    <div className="flex items-center gap-2 py-3 px-5">
+                        <div className="h-8 w-8 rounded-full aspect-square bg-blue-400" />
+                        <Link
+                            href="/dashboard"
+                            className="text-xl font-semibold tracking-tight"
+                            onClick={onClose}
+                        >
+                            Atlas Notes
+                        </Link>
+                    </div>
+                    <div className="px-3">
+                        <Button
+                            type="button"
+                            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                        >
+                            <Plus className="size-4" />
+                            New document
+                        </Button>
                     </div>
                 </div>
 
-                {/* User section */}
-                <div className="border-t p-3">
-                    <div className="flex items-center gap-3 rounded-lg px-3 py-2">
-                        <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-medium">
-                            U
-                        </div>
-
-                        <div className="min-w-0">
-                            <p className="truncate text-sm font-medium">
-                                User
+                <div className="flex-1 flex flex-col justify-between px-3 pb-3">
+                    {/* Sidebar Sections */}
+                    <div>
+                        <div className="mt-6 flex-1 overflow-y-auto space-y-2">
+                            <p className="text-sm font-medium tracking-wider text-muted-foreground">
+                                Documents
                             </p>
-
-                            <p className="truncate text-xs text-muted-foreground">
-                                user@email.com
-                            </p>
+                            <div className="space-y-2">
+                                {documents.map((document) => (
+                                    <Link
+                                        key={document.id}
+                                        href={`/dashboard/${document.id}`}
+                                        className="flex items-center gap-3 rounded-lg"
+                                    >
+                                        <span className="truncate">
+                                            {document.title || "Untitled document"}
+                                        </span>
+                                    </Link>
+                                ))}
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                    {/* User section */}
+                    <User />
+                </div>
             </div>
-        </div>
+        </aside>
     );
 }

@@ -12,7 +12,7 @@ export default async function DocumentPage({
     const { documentId } = await params;
 
     return (
-        <div className="min-h-screen">
+        <div className="px-4">
             {/* <Editor documentId={documentId} /> */}
             Editor will be here son
         </div>

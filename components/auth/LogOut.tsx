@@ -23,12 +23,14 @@ export function LogoutButton() {
             setLoading(false);
         }
     };
-        
+
     return (
         <Button
+            className={"w-full"}
             type="button"
             onClick={handleLogout}
             disabled={loading}
+            variant={"destructive"}
         >
             {loading ? "Logging out..." : "Logout"}
         </Button>

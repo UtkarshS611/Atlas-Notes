@@ -22,7 +22,7 @@ export default function RootLayout({
       lang="en"
       className={cn("h-full antialiased ")}
     >
-      <body className="min-h-full flex flex-col relative">
+      <body className="min-h-screen flex flex-col relative">
         {/* <Header /> */}
         <main>
           {children}
