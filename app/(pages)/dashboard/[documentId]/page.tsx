@@ -1,5 +1,7 @@
 // import { Editor } from "@/components/editor/editor";
 
+import TextEditor from "@/components/editor/TextEditor";
+
 interface DocumentPageProps {
     params: Promise<{
         documentId: string;
@@ -13,8 +15,9 @@ export default async function DocumentPage({
 
     return (
         <div className="px-4">
-            {/* <Editor documentId={documentId} /> */}
             Editor will be here son
+
+            <TextEditor />
         </div>
     );
 }

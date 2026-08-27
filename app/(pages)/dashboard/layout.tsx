@@ -1,8 +1,10 @@
-"use client"
+"use client";
+
 import { useEffect, useState } from "react";
 
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+
 import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface DashboardLayoutProps {
@@ -12,49 +14,21 @@ interface DashboardLayoutProps {
 export default function DashboardLayout({
     children,
 }: DashboardLayoutProps) {
-
     const isMobile = useMediaQuery("(max-width: 767px)");
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    /*
-     * Desktop:
-     *   Sidebar starts open
-     *
-     * Mobile:
-     *   Sidebar starts closed
-     */
     useEffect(() => {
         setSidebarOpen(!isMobile);
     }, [isMobile]);
-
-    const toggleSidebar = () => {
-        setSidebarOpen((prev) => !prev);
-    };
 
     const closeSidebar = () => {
         setSidebarOpen(false);
     };
 
-    const documents = [
-        {
-            id: "1",
-            title: "My first document",
-        },
-        {
-            id: "2",
-            title: "Project Ideas",
-        },
-        {
-            id: "3",
-            title: "Research Notes",
-        },
-    ];
-
     return (
-        <section className="overflow-hidden">
-            <div className="flex min-w-0">
-                {/* Mobile backdrop */}
+        <section className="h-screen overflow-hidden">
+            <div className="flex h-full min-w-0">
                 {sidebarOpen && (
                     <div
                         className="fixed inset-0 z-40 bg-black/50 md:hidden"
@@ -62,17 +36,23 @@ export default function DashboardLayout({
                         aria-hidden="true"
                     />
                 )}
-                {/* Sidebar */}
+
                 <DashboardSidebar
                     open={sidebarOpen}
                     onClose={closeSidebar}
                 />
-                <div className="flex-1">
+
+                <div className="flex min-w-0 flex-1 flex-col">
                     <DashboardHeader
                         sidebarOpen={sidebarOpen}
-                        onSidebarToggle={() => setSidebarOpen((prev) => !prev)}
+                        onSidebarToggle={() =>
+                            setSidebarOpen((prev) => !prev)
+                        }
                     />
-                    {children}
+
+                    <div className="min-h-0 flex-1 overflow-y-auto">
+                        {children}
+                    </div>
                 </div>
             </div>
         </section>
