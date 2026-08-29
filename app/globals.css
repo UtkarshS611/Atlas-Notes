@@ -148,3 +148,19 @@ h6 {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.ProseMirror {
+  outline: none;
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
+
+.ProseMirror ::selection {
+  background-color: red;
+}
+
+.ProseMirror *::selection {
+  background: highlight;
+}
