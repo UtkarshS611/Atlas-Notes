@@ -28,7 +28,7 @@ const Header = () => {
 
     return (
         <header
-            className='text-white bg-transparent w-full max-w-250 mx-auto z-99 px-4 md:px-0'
+            className='w-full max-w-7xl mx-auto z-99 px-4 md:px-0'
         >
             <nav className="flex items-center justify-between w-full relative">
                 <Link
@@ -48,7 +48,7 @@ const Header = () => {
                 </NavigationMenu>
                 <div className="hidden items-center gap-4 lg:flex">
                     <Button
-                        className="rounded-xl px-8 py-5 border-[1.5px] border-white bg-white/10 hover:bg-white/20 duration-200"
+                        className="rounded-xl px-8 py-5"
                     >
                         Get Started
                     </Button>

@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import ShareDocumentDialog from "@/components/dashboard/SharedDocumentDialog";
 
 import User from "@/components/dashboard/User";
 
@@ -14,7 +15,6 @@ import { Label } from "@/components/ui/label";
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
@@ -28,11 +28,21 @@ interface Document {
     updated_at: string;
 }
 
+interface SharedDocument {
+    id: string;
+    title: string;
+    role: "editor" | "viewer";
+}
+
 interface DashboardSidebarProps {
     open: boolean;
     onClose: () => void;
+
     documents: Document[];
-    setDocuments: React.Dispatch<React.SetStateAction<Document[]>>;
+
+    setDocuments: React.Dispatch<
+        React.SetStateAction<Document[]>
+    >;
 }
 
 export default function DashboardSidebar({
@@ -42,15 +52,84 @@ export default function DashboardSidebar({
     setDocuments,
 }: DashboardSidebarProps) {
     const router = useRouter();
+    const pathname = usePathname();
 
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const [title, setTitle] = useState("");
-    const [creating, setCreating] = useState(false);
+    const currentDocumentId = pathname.startsWith("/dashboard/")
+        ? pathname.split("/")[2]
+        : null;
 
+    const [dialogOpen, setDialogOpen] =
+        useState(false);
+
+    const [title, setTitle] =
+        useState("");
+
+    const [creating, setCreating] =
+        useState(false);
+
+    const [sharedDocuments, setSharedDocuments] =
+        useState<SharedDocument[]>([]);
+
+    const [loadingSharedDocuments, setLoadingSharedDocuments] =
+        useState(true);
+
+    /*
+     * Load documents shared with the current user.
+     */
+    useEffect(() => {
+        const loadSharedDocuments = async () => {
+            try {
+                setLoadingSharedDocuments(true);
+
+                const response = await fetch(
+                    "/api/shared"
+                );
+
+                if (!response.ok) {
+                    const data =
+                        await response.json().catch(
+                            () => null
+                        );
+
+                    console.error(
+                        "Failed to load shared documents:",
+                        data
+                    );
+
+                    setSharedDocuments([]);
+
+                    return;
+                }
+
+                const data = await response.json();
+
+                setSharedDocuments(
+                    data.documents ?? []
+                );
+            } catch (error) {
+                console.error(
+                    "Error loading shared documents:",
+                    error
+                );
+
+                setSharedDocuments([]);
+            } finally {
+                setLoadingSharedDocuments(false);
+            }
+        };
+
+        loadSharedDocuments();
+    }, []);
+
+    /*
+     * Create a new document.
+     */
     const createDocument = async () => {
         const documentTitle = title.trim();
 
-        if (!documentTitle || creating) return;
+        if (!documentTitle || creating) {
+            return;
+        }
 
         setCreating(true);
 
@@ -62,75 +141,96 @@ export default function DashboardSidebar({
             } = await supabase.auth.getUser();
 
             if (!user) {
-                router.push("/login");
+                router.push("/auth/sign-in");
                 return;
             }
 
-            const { data, error } = await supabase
-                .from("documents")
-                .insert({
-                    title: documentTitle,
-                    owner_id: user.id,
-                })
-                .select("id, title, updated_at")
-                .single();
+            const { data, error } =
+                await supabase
+                    .from("documents")
+                    .insert({
+                        title: documentTitle,
+                        owner_id: user.id,
+                    })
+                    .select(
+                        "id, title, updated_at"
+                    )
+                    .single();
 
             if (error) {
-                console.error("Error creating document:", error);
+                console.error(
+                    "Error creating document:",
+                    error
+                );
+
                 return;
             }
 
-            // Add document to sidebar
-            setDocuments((prev) => [data, ...prev]);
+            setDocuments((prev) => [
+                data,
+                ...prev,
+            ]);
 
-            // Reset form
             setTitle("");
             setDialogOpen(false);
 
-            // Open the new document
-            router.push(`/dashboard/${data.id}`);
+            router.push(
+                `/dashboard/${data.id}`
+            );
         } catch (error) {
-            console.error("Error creating document:", error);
+            console.error(
+                "Error creating document:",
+                error
+            );
         } finally {
             setCreating(false);
         }
     };
 
+    const privateDocuments = documents.filter(
+        (document) =>
+            !sharedDocuments.some(
+                (sharedDocument) =>
+                    sharedDocument.id === document.id
+            )
+    );
+
     return (
         <>
             <aside
                 className={`
-          min-h-screen
-          shrink-0
-          bg-sidebar
-          border-r
+                    shrink-0
+                    bg-sidebar
+                    border-r
 
-          md:relative
-          md:overflow-hidden
-          md:transition-[width]
-          md:duration-300
-          md:ease-in-out
-          ${open ? "md:w-64" : "md:w-0"}
+                    md:relative
+                    md:h-screen
+                    md:overflow-hidden
+                    md:transition-[width]
+                    md:duration-300
+                    md:ease-in-out
+                    ${open ? "md:w-64" : "md:w-0"}
 
-          fixed
-          top-0
-          left-0
-          z-50
-          w-64
+                    fixed
+                    inset-y-0
+                    left-0
+                    z-50
+                    w-64
+                    transition-transform
+                    duration-300
+                    ease-in-out
+                    ${open
+                        ? "translate-x-0"
+                        : "-translate-x-full"
+                    }
 
-          transition-transform
-          duration-300
-          ease-in-out
-
-          ${open ? "translate-x-0" : "-translate-x-full"}
-
-          md:translate-x-0
-        `}
+                    md:translate-x-0
+                `}
             >
-                <div className="flex h-screen w-64 flex-col">
+                <div className="flex h-full w-64 flex-col">
 
                     {/* Header */}
-                    <div>
+                    <div className="shrink-0">
                         <div className="flex items-center gap-2 px-5 py-3">
                             <div className="aspect-square h-8 w-8 rounded-full bg-blue-400" />
 
@@ -142,11 +242,12 @@ export default function DashboardSidebar({
                             </Link>
                         </div>
 
-                        {/* New document */}
                         <div className="px-3">
                             <Button
                                 type="button"
-                                onClick={() => setDialogOpen(true)}
+                                onClick={() =>
+                                    setDialogOpen(true)
+                                }
                                 className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium"
                             >
                                 <Plus className="size-4" />
@@ -155,45 +256,134 @@ export default function DashboardSidebar({
                         </div>
                     </div>
 
-                    {/* Recent documents */}
-                    <div className="mt-6 flex min-h-0 flex-1 flex-col px-3">
-                        <p className="mb-3 text-sm font-medium tracking-wider text-muted-foreground">
-                            Recent documents
-                        </p>
+                    {/* Scrollable content */}
+                    <div className="min-h-0 flex-1 overflow-y-auto px-3">
 
-                        <div className="min-h-0 flex-1 space-y-1 overflow-y-auto">
-                            {documents.length === 0 ? (
-                                <p className="px-1 py-2 text-sm text-muted-foreground">
-                                    No documents yet.
-                                </p>
-                            ) : (
-                                documents.map((document) => (
-                                    <Link
-                                        key={document.id}
-                                        href={`/dashboard/${document.id}`}
-                                        className="
-                      block truncate
-                      rounded-lg
-                      px-2 py-2
-                      text-sm
-                      text-muted-foreground
-                      transition-colors
-                      hover:bg-muted
-                      hover:text-foreground
-                    "
-                                    >
-                                        {document.title || "Untitled document"}
-                                    </Link>
-                                ))
-                            )}
+                        {/* Private */}
+                        <div className="mt-6 space-y-3">
+                            <p className="text-sm font-medium tracking-wider text-muted-foreground">
+                                Private
+                            </p>
+
+                            <div className="space-y-1">
+                                {privateDocuments.length === 0 ? (
+                                    <p className="px-2 py-1 text-sm text-muted-foreground">
+                                        No private documents
+                                    </p>
+                                ) : (
+                                    privateDocuments.map(
+                                        (document) => {
+                                            const isActive =
+                                                currentDocumentId ===
+                                                document.id;
+
+                                            return (
+                                                <Link
+                                                    key={document.id}
+                                                    href={`/dashboard/${document.id}`}
+                                                    className={`
+                                                        block
+                                                        truncate
+                                                        rounded-lg
+                                                        px-2
+                                                        py-2
+                                                        text-sm
+                                                        transition-colors
+                                                        ${isActive
+                                                            ? "bg-accent text-accent-foreground font-medium"
+                                                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                                        }
+                                                    `}
+                                                >
+                                                    {document.title ||
+                                                        "Untitled document"}
+                                                </Link>
+                                            );
+                                        }
+                                    )
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Shared documents */}
+                        <div className="mt-8 space-y-3">
+                            <p className="text-sm font-medium tracking-wider text-muted-foreground">
+                                Shared
+                            </p>
+
+                            <div className="space-y-1">
+                                {loadingSharedDocuments ? (
+                                    <p className="px-2 py-1 text-sm text-muted-foreground">
+                                        Loading...
+                                    </p>
+                                ) : sharedDocuments.length === 0 ? (
+                                    <p className="px-2 py-1 text-sm text-muted-foreground">
+                                        No shared documents
+                                    </p>
+                                ) : (
+                                    sharedDocuments.map(
+                                        (document) => {
+                                            const isActive =
+                                                currentDocumentId ===
+                                                document.id;
+
+                                            return (
+                                                <Link
+                                                    key={document.id}
+                                                    href={`/dashboard/${document.id}`}
+                                                    className={`
+                                                        flex
+                                                        items-center
+                                                        justify-between
+                                                        gap-2
+                                                        rounded-lg
+                                                        px-2
+                                                        py-2
+                                                        text-sm
+                                                        transition-colors
+                                                        ${isActive
+                                                            ? "bg-accent text-accent-foreground font-medium"
+                                                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                                        }
+                                                    `}
+                                                >
+                                                    <span className="truncate">
+                                                        {document.title ||
+                                                            "Untitled document"}
+                                                    </span>
+
+                                                    <span
+                                                        className={`
+                                                            shrink-0
+                                                            text-[10px]
+                                                            uppercase
+                                                            tracking-wide
+                                                            ${isActive
+                                                                ? "text-accent-foreground/70"
+                                                                : "text-muted-foreground/70"
+                                                            }
+                                                        `}
+                                                    >
+                                                        {document.role}
+                                                    </span>
+                                                </Link>
+                                            );
+                                        }
+                                    )
+                                )}
+                            </div>
                         </div>
                     </div>
 
                     {/* User */}
-                    <div className="p-3">
+                    <div className="shrink-0 p-3 space-y-2">
+                        {currentDocumentId && (
+                            <ShareDocumentDialog
+                                documentId={currentDocumentId}
+                            />
+                        )}
                         <User />
                     </div>
-
                 </div>
             </aside>
 
@@ -211,6 +401,13 @@ export default function DashboardSidebar({
                 }}
             >
                 <DialogContent className="sm:max-w-md">
+
+                    <DialogHeader>
+                        <DialogTitle>
+                            Create new document
+                        </DialogTitle>
+                    </DialogHeader>
+
                     <div className="space-y-2 py-2">
                         <Label htmlFor="document-title">
                             Title
@@ -220,33 +417,52 @@ export default function DashboardSidebar({
                             id="document-title"
                             placeholder="My new document"
                             value={title}
-                            onChange={(e) => setTitle(e.target.value)}
+                            onChange={(e) =>
+                                setTitle(
+                                    e.target.value
+                                )
+                            }
                             onKeyDown={(e) => {
-                                if (e.key === "Enter") {
+                                if (
+                                    e.key ===
+                                    "Enter"
+                                ) {
                                     createDocument();
                                 }
                             }}
                             autoFocus
+                            disabled={creating}
                         />
                     </div>
 
-                    <DialogFooter className="flex! flex-col! justify-center ">
+                    <DialogFooter className="flex! flex-col! justify-center">
+
                         <Button
                             type="button"
-                            onClick={createDocument}
-                            disabled={!title.trim() || creating}
+                            onClick={
+                                createDocument
+                            }
+                            disabled={
+                                !title.trim() ||
+                                creating
+                            }
                         >
-                            {creating ? "Creating..." : "Create document"}
+                            {creating
+                                ? "Creating..."
+                                : "Create document"}
                         </Button>
 
                         <Button
                             type="button"
                             variant="destructive"
-                            onClick={() => setDialogOpen(false)}
+                            onClick={() =>
+                                setDialogOpen(false)
+                            }
                             disabled={creating}
                         >
                             Cancel
                         </Button>
+
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

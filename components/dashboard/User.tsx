@@ -51,18 +51,18 @@ export default function User() {
         .toUpperCase();
 
     return (
-        <div className="rounded-xl bg-gray-200">
+        <div className="rounded-xl bg-primary">
             <div className="flex flex-col gap-3 rounded-lg px-3 py-2">
                 <div className="flex items-center gap-3">
                     <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-medium">
                         {initials}
                     </div>
                     <div className="min-w-0">
-                        <p className="truncate font-medium">
+                        <p className="font-bold text-black">
                             {user.name}
                         </p>
 
-                        <p className="truncate text-xs text-muted-foreground">
+                        <p className="truncate text-xs text-black">
                             {user.email}
                         </p>
                     </div>

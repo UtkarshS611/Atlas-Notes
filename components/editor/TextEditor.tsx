@@ -1,308 +1,327 @@
-'use client'
+"use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+import * as Y from "yjs";
+
+import {
+    useEditor,
+    EditorContent,
+} from "@tiptap/react";
+
+import StarterKit from "@tiptap/starter-kit";
+
+import TextStyle from "@tiptap/extension-text-style";
+import Subscript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
+import TextAlign from "@tiptap/extension-text-align";
+
+import Collaboration from "@tiptap/extension-collaboration";
+import CollaborationCaret from "@tiptap/extension-collaboration-caret";
+
+import { HocuspocusProvider } from "@hocuspocus/provider";
 
 import { createClient } from "@/lib/supabase/client";
 
-import { useEditor, EditorContent, EditorContext, useEditorState } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-
-import Subscript from '@tiptap/extension-subscript'
-import Superscript from '@tiptap/extension-superscript'
-
-import TextAlign from '@tiptap/extension-text-align'
-
-import { FontSize, TextStyle } from '@tiptap/extension-text-style'
-
-import { Button } from '@/components/ui/button'
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 import {
     BoldIcon,
     ItalicIcon,
-    RedoIcon,
     StrikethroughIcon,
     UnderlineIcon,
-    UndoIcon,
     AlignCenter,
     AlignLeft,
     AlignRight,
     AlignJustify,
-    ChevronDown
 } from "lucide-react";
 
 import {
     LuSuperscript,
-    LuSubscript
+    LuSubscript,
 } from "react-icons/lu";
 
 interface TextEditorProps {
     documentId: string;
-    initialContent: Record<string, any> | null;
 }
 
 export default function TextEditor({
     documentId,
-    initialContent,
 }: TextEditorProps) {
+    const [accessToken, setAccessToken] = useState<string | null>(null);
+    const ydoc = useMemo(() => {
+        return new Y.Doc();
+    }, []);
+    useEffect(() => {
+        const supabase = createClient();
 
-    const saveTimeout = useRef<NodeJS.Timeout | null>(null);
+        const getSession = async () => {
+            const {
+                data: { session },
+            } = await supabase.auth.getSession();
 
-    const saveDocument = (content: Record<string, any>) => {
-        if (saveTimeout.current) {
-            clearTimeout(saveTimeout.current);
+            setAccessToken(session?.access_token ?? null);
+        };
+
+        getSession();
+
+        const {
+            data: { subscription },
+        } = supabase.auth.onAuthStateChange(
+            (_event, session) => {
+                setAccessToken(
+                    session?.access_token ?? null
+                );
+            }
+        );
+
+        return () => {
+            subscription.unsubscribe();
+        };
+    }, []);
+    const provider = useMemo(() => {
+        if (!accessToken) {
+            return null;
         }
 
-        saveTimeout.current = setTimeout(async () => {
-            const supabase = createClient();
+        return new HocuspocusProvider({
+            url: "ws://localhost:3001",
+            name: `document-${documentId}`,
+            document: ydoc,
+            token: accessToken,
+        });
+    }, [
+        accessToken,
+        documentId,
+        ydoc,
+    ]);
 
-            const { error } = await supabase
-                .from("documents")
-                .update({
-                    content: content,
-                    updated_at: new Date().toISOString(),
-                })
-                .eq("id", documentId);
-
-            if (error) {
-                console.error("Failed to save document:", error);
-            } else {
-                console.log("Document saved");
-            }
-        }, 800);
-    };
-
-    const editor = useEditor({
-        extensions: [
-            StarterKit,
-            Subscript,
-            Superscript,
-
-            TextStyle,
-            FontSize,
-
-            TextAlign.configure({
-                types: ['heading', 'paragraph'],
-            }),
-        ],
-        content: initialContent ?? {
-            type: "doc",
-            content: [
-                {
-                    type: "heading",
-                    attrs: {
-                        level: 1,
-                    },
-                    content: [
-                        {
-                            type: "text",
-                            text: "Your Heading",
-                        },
-                    ],
-                },
-            ],
-        },
-
-        onUpdate: ({ editor }) => {
-            saveDocument(editor.getJSON());
-        },
-        immediatelyRender: true,
-    })
-
-
-
-    const { fontSize } = useEditorState({
-        editor,
-        selector: ({ editor }) => {
-            if (!editor) {
-                return {
-                    fontSize: "16px",
-                };
-            }
-
-            return {
-                fontSize:
-                    editor.getAttributes("textStyle")?.fontSize ?? "16px",
-            };
-        },
-    });
-
-    const providerValue = useMemo(() => ({ editor }), [editor])
-
-    if (!editor) {
-        return null
+    if (!provider) {
+        return (
+            <div className="flex min-h-100 items-center justify-center">
+                <p className="text-sm text-muted-foreground">
+                    Connecting...
+                </p>
+            </div>
+        );
     }
 
+    return (
+        <CollaborativeEditor
+            ydoc={ydoc}
+            provider={provider}
+        />
+    );
+}
+function CollaborativeEditor({
+    ydoc,
+    provider,
+}: {
+    ydoc: Y.Doc;
+    provider: HocuspocusProvider;
+}) {
+    const editor = useEditor({
+        extensions: [
+            StarterKit.configure({
+                undoRedo: false,
+            }),
+            // TextStyle,
+            Subscript,
+            Superscript,
+            TextAlign.configure({
+                types: [
+                    "heading",
+                    "paragraph",
+                ],
+            }),
+            Collaboration.configure({
+                document: ydoc,
+            }),
+            CollaborationCaret.configure({
+                provider,
+
+                user: {
+                    name: "Test User",
+                    color: "#6366f1",
+                },
+            }),
+        ],
+    });
+    if (!editor) {
+        return null;
+    }
 
     return (
-        <EditorContext.Provider value={{ editor }}>
-            <header className='border-b flex justify-center items-center py-2 w-auto'>
-                <div className='tool-group px-1'>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger>
-                            <div
-                                className={`bg-muted h-full py-1 w-32 gap-1 cursor-pointer flex items-center rounded-xl justify-around`}
-                            >
-                                {fontSize}
-                                <ChevronDown className="size-3.5" />
-                            </div>
-                        </DropdownMenuTrigger>
-
-                        <DropdownMenuContent align="start" className={"overflow-hidden"}>
-                            {[
-                                "10px",
-                                "12px",
-                                "14px",
-                                "16px",
-                                "18px",
-                                "20px",
-                                "24px",
-                                "28px",
-                                "32px",
-                                "36px",
-                                "48px",
-                                "64px",
-                            ].map((size) => (
-                                <DropdownMenuItem
-                                    key={size}
-                                    onClick={() =>
-                                        editor
-                                            .chain()
-                                            .focus()
-                                            .setFontSize(size)
-                                            .run()
-                                    }
-                                    className={fontSize === size ? "bg-muted" : ""}
-                                >
-                                    {size}
-                                </DropdownMenuItem>
-                            ))}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
-
-
-                <div className='tool-group border-l-2 w-fit px-1'>
+        <div className="w-full">
+            {/* Toolbar */}
+            <header className="flex w-full items-center justify-center border-b py-2">
+                <div className="tool-group flex w-fit items-center border-x-2 px-1">
                     <Button
-                        size={"icon"}
-                        variant={"ghost"}
-                        onClick={() => editor.chain().focus().undo().run()}
-                        className={"cursor-pointer"}
-                    >
-                        <UndoIcon />
-                    </Button>
-                    <Button
-                        size={"icon"}
-                        variant={"ghost"}
-                        onClick={() => editor.chain().focus().redo().run()}
-                        className={"cursor-pointer"}
-                    >
-                        <RedoIcon />
-                    </Button>
-                </div>
-
-
-                <div className='tool-group border-x-2 w-fit px-1'>
-                    <Button
-                        size={"icon"}
-                        variant={"ghost"}
-                        onClick={() => editor.chain().focus().toggleBold().run()}
-                        className={"cursor-pointer"}
+                        size="icon"
+                        variant="ghost"
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .toggleBold()
+                                .run()
+                        }
+                        className="cursor-pointer"
                     >
                         <BoldIcon />
                     </Button>
+
                     <Button
-                        size={"icon"}
-                        variant={"ghost"}
-                        onClick={() => editor.chain().focus().toggleStrike().run()}
-                        className={"cursor-pointer"}
+                        size="icon"
+                        variant="ghost"
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .toggleStrike()
+                                .run()
+                        }
+                        className="cursor-pointer"
                     >
                         <StrikethroughIcon />
                     </Button>
+
                     <Button
-                        size={"icon"}
-                        variant={"ghost"}
-                        onClick={() => editor.chain().focus().toggleItalic().run()}
-                        className={"cursor-pointer"}
+                        size="icon"
+                        variant="ghost"
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .toggleItalic()
+                                .run()
+                        }
+                        className="cursor-pointer"
                     >
                         <ItalicIcon />
                     </Button>
+
                     <Button
-                        size={"icon"}
-                        variant={"ghost"}
-                        onClick={() => editor.chain().focus().toggleUnderline().run()}
-                        className={"cursor-pointer"}
+                        size="icon"
+                        variant="ghost"
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .toggleUnderline()
+                                .run()
+                        }
+                        className="cursor-pointer"
                     >
                         <UnderlineIcon />
                     </Button>
                 </div>
 
 
-                <div className='tool-group border-r-2 w-fit px-1'>
+                {/* Superscript / Subscript */}
+                <div className="tool-group flex w-fit items-center border-r-2 px-1">
                     <Button
-                        size={"icon"}
-                        variant={"ghost"}
-                        onClick={() => editor.chain().focus().toggleSuperscript().run()}
-                        className={"cursor-pointer"}
+                        size="icon"
+                        variant="ghost"
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .toggleSuperscript()
+                                .run()
+                        }
+                        className="cursor-pointer"
                     >
                         <LuSuperscript />
                     </Button>
+
                     <Button
-                        size={"icon"}
-                        variant={"ghost"}
-                        onClick={() => editor.chain().focus().toggleSubscript().run()}
-                        className={`cursor-pointer`}
+                        size="icon"
+                        variant="ghost"
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .toggleSubscript()
+                                .run()
+                        }
+                        className="cursor-pointer"
                     >
                         <LuSubscript />
                     </Button>
                 </div>
 
 
-                <div className='tool-group border-r-2 w-fit px-1'>
+                {/* Text alignment */}
+                <div className="tool-group flex w-fit items-center border-r-2 px-1">
                     <Button
-                        size={"icon"}
-                        variant={"ghost"}
-                        onClick={() => editor.chain().focus().toggleTextAlign("left").run()}
-                        className={"cursor-pointer"}
+                        size="icon"
+                        variant="ghost"
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .setTextAlign("left")
+                                .run()
+                        }
+                        className="cursor-pointer"
                     >
                         <AlignLeft />
                     </Button>
+
                     <Button
-                        size={"icon"}
-                        variant={"ghost"}
-                        onClick={() => editor.chain().focus().toggleTextAlign("center").run()}
-                        className={"cursor-pointer"}
+                        size="icon"
+                        variant="ghost"
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .setTextAlign("center")
+                                .run()
+                        }
+                        className="cursor-pointer"
                     >
                         <AlignCenter />
                     </Button>
+
                     <Button
-                        size={"icon"}
-                        variant={"ghost"}
-                        onClick={() => editor.chain().focus().toggleTextAlign("right").run()}
-                        className={"cursor-pointer"}
+                        size="icon"
+                        variant="ghost"
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .setTextAlign("right")
+                                .run()
+                        }
+                        className="cursor-pointer"
                     >
                         <AlignRight />
                     </Button>
+
                     <Button
-                        size={"icon"}
-                        variant={"ghost"}
-                        onClick={() => editor.chain().focus().toggleTextAlign("justify").run()}
-                        className={"cursor-pointer"}
+                        size="icon"
+                        variant="ghost"
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .setTextAlign("justify")
+                                .run()
+                        }
+                        className="cursor-pointer"
                     >
                         <AlignJustify />
                     </Button>
                 </div>
             </header>
+
+
+            {/* Editor */}
             <EditorContent
                 editor={editor}
-                className='mx-auto max-w-4xl mt-12'
-                placeholder='Start writing your document here...'
+                className="mx-auto mt-12 max-w-4xl"
             />
-        </EditorContext.Provider>
-    )
+        </div>
+    );
 }
