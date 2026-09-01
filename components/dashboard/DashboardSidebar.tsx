@@ -23,6 +23,7 @@ import { Label } from "@/components/ui/label";
 import ShareDocumentDialog from "@/components/dashboard/SharedDocumentDialog";
 
 import { Plus } from "lucide-react";
+import Image from "next/image";
 
 interface Document {
     id: string;
@@ -197,7 +198,13 @@ export default function DashboardSidebar({
                     {/* Header */}
                     <div className="shrink-0">
                         <div className="flex items-center gap-2 px-5 py-3">
-                            <div className="aspect-square h-8 w-8 rounded-full bg-blue-400" />
+                            {/* <div className="aspect-square h-8 w-8 rounded-full bg-blue-400" /> */}
+                            <Image
+                                src={"/logo.svg"}
+                                alt="Atlas Notes logo"
+                                width={32}
+                                height={32}
+                            />
 
                             <Link
                                 href="/dashboard"
@@ -286,8 +293,8 @@ export default function DashboardSidebar({
                                                     href={`/dashboard/${document.id}`}
                                                     className={`
                                                         flex items-center justify-between rounded-lg px-2 py-2 text-sm transition-colors ${isActive
-                                                        ? "bg-accent text-accent-foreground font-medium"
-                                                        : "text-muted-foreground hover:bg-muted hover:text-foreground"}
+                                                            ? "bg-accent text-accent-foreground font-medium"
+                                                            : "text-muted-foreground hover:bg-muted hover:text-foreground"}
                                                     `}
                                                 >
                                                     <span className="truncate">

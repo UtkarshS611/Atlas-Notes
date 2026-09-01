@@ -1,11 +1,9 @@
-import Hero from "@/components/landing/Hero";
-import Hero2 from "@/components/landing/Hero2";
+import Hero from '@/components/landing/Hero'
 
 export default function Home() {
   return (
     <>
-      {/* <Hero /> */}
-      <Hero2 />
+      <Hero />
     </>
   )
 }

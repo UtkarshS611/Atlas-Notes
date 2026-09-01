@@ -24,11 +24,7 @@ export async function GET() {
                 }
             );
         }
-
-        /*
-         * Get documents where the current user is
-         * explicitly a member.
-         */
+        
         const {
             data: memberships,
             error: membershipError,
@@ -55,10 +51,6 @@ export async function GET() {
             );
         }
 
-        /*
-         * Get documents owned by the current user
-         * that have at least one member.
-         */
         const {
             data: ownedDocuments,
             error: ownedError,
@@ -93,9 +85,6 @@ export async function GET() {
             );
         }
 
-        /*
-         * Documents where I'm a member.
-         */
         const memberDocumentIds =
             new Set(
                 (memberships ?? []).map(
@@ -104,9 +93,6 @@ export async function GET() {
                 )
             );
 
-        /*
-         * Documents I own that have members.
-         */
         const ownerSharedDocuments =
             (ownedDocuments ?? []).filter(
                 (document) =>
@@ -114,9 +100,6 @@ export async function GET() {
                     document.document_members.length > 0
             );
 
-        /*
-         * Get the actual member documents.
-         */
         let memberDocuments: {
             id: string;
             title: string;
@@ -160,23 +143,14 @@ export async function GET() {
             memberDocuments = data ?? [];
         }
 
-        /*
-         * Combine owner-shared documents and
-         * documents shared with the current user.
-         */
-        const sharedMap = new Map<
-            string,
-            {
-                id: string;
-                title: string;
-                updated_at: string;
-                role: string;
-            }
+        const sharedMap = new Map<string, {
+            id: string;
+            title: string;
+            updated_at: string;
+            role: string;
+        }
         >();
 
-        /*
-         * Documents I own and have shared.
-         */
         ownerSharedDocuments.forEach(
             (document) => {
                 sharedMap.set(
@@ -193,10 +167,6 @@ export async function GET() {
                 );
             }
         );
-
-        /*
-         * Documents shared with me.
-         */
         memberDocuments.forEach(
             (document) => {
                 const membership =

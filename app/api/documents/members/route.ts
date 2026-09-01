@@ -25,9 +25,6 @@ export async function POST(
         const cookieStore = await cookies();
         const supabase = createClient(cookieStore);
 
-        /*
-         * Get currently authenticated user.
-         */
         const {
             data: { user },
             error: authError,
@@ -41,10 +38,6 @@ export async function POST(
                 { status: 401 }
             );
         }
-
-        /*
-         * Make sure current user owns the document.
-         */
         const { data: document, error: documentError } =
             await supabase
                 .from("documents")
@@ -73,18 +66,6 @@ export async function POST(
                 { status: 403 }
             );
         }
-
-        /*
-         * Find the user by email.
-         *
-         * IMPORTANT:
-         * auth.users cannot be queried directly
-         * with the normal client.
-         *
-         * This part should eventually use a secure
-         * server-side/admin lookup.
-         */
-
         const {
             data: targetUser,
             error: targetUserError,
@@ -117,10 +98,6 @@ export async function POST(
                 { status: 400 }
             );
         }
-
-        /*
-         * Add member.
-         */
         const {
             error: memberError,
         } = await supabase

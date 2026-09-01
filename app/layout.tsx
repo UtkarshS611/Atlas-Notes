@@ -5,11 +5,12 @@ import { cn } from "@/lib/utils";
 
 import { Toaster } from "@/components/ui/sonner"
 
-import Header from "@/components/landing/Header";
-
 export const metadata: Metadata = {
   title: "Atlas Notes",
   description: "A multi user document editing platform.",
+  icons: {
+    icon: "/logo.svg",
+  }
 };
 
 export default function RootLayout({
@@ -23,7 +24,6 @@ export default function RootLayout({
       className={cn("h-full antialiased")}
     >
       <body className="min-h-screen flex flex-col relative">
-        {/* <Header /> */}
         <main>
           {children}
         </main>
