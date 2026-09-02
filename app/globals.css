@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 @import "tailwindcss";
@@ -155,8 +155,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "EB Garamond", serif;
-  font-style: normal;
+  font-family: "Roboto Slab", serif;
+  font-optical-sizing: auto;
 }
 
 .auth {

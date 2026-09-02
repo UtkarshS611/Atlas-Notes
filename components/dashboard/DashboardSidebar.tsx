@@ -22,7 +22,7 @@ import { Label } from "@/components/ui/label";
 
 import ShareDocumentDialog from "@/components/dashboard/SharedDocumentDialog";
 
-import { Plus } from "lucide-react";
+import { FileText, Plus } from "lucide-react";
 import Image from "next/image";
 
 interface Document {
@@ -198,14 +198,12 @@ export default function DashboardSidebar({
                     {/* Header */}
                     <div className="shrink-0">
                         <div className="flex items-center gap-2 px-5 py-3">
-                            {/* <div className="aspect-square h-8 w-8 rounded-full bg-blue-400" /> */}
                             <Image
                                 src={"/logo.svg"}
                                 alt="Atlas Notes logo"
                                 width={32}
                                 height={32}
                             />
-
                             <Link
                                 href="/dashboard"
                                 className="text-xl font-semibold tracking-tight"
@@ -233,9 +231,9 @@ export default function DashboardSidebar({
 
                         {/* Private */}
                         <div className="mt-6 space-y-1">
-                            <p className="text-xs font-medium tracking-wider text-muted-foreground">
+                            <h2 className="text-xs font-medium tracking-wider text-muted-foreground">
                                 Private
-                            </p>
+                            </h2>
                             <div>
                                 {privateDocuments.length === 0 ? (
                                     <p className="px-2 py-1 text-sm text-muted-foreground">
@@ -253,9 +251,12 @@ export default function DashboardSidebar({
                                                     key={document.id}
                                                     href={`/dashboard/${document.id}`}
                                                     className={`
-                                                        block truncate rounded-lg px-2 py-2 text-sm transition-colors ${isActive ? "bg-accent text-accent-foreground font-medium" : "text-muted-foreground hover:bg-muted hover:text-foreground"}
+                                                        block truncate rounded-lg px-2 py-2 text-sm transition-colors ${isActive ? "bg-accent text-accent-foreground font-medium" : "text-muted-foreground hover:bg-muted hover:text-foreground flex items-center gap-1"}
                                                     `}
                                                 >
+                                                    <FileText
+                                                        className="size-4 text-green-500"
+                                                    />
                                                     {document.title ||
                                                         "Untitled document"}
                                                 </Link>
@@ -268,9 +269,9 @@ export default function DashboardSidebar({
 
                         {/* Shared documents */}
                         <div className="mt-6 space-y-1">
-                            <p className="text-xs font-medium tracking-wider text-muted-foreground">
+                            <h2 className="text-xs font-medium tracking-wider text-muted-foreground">
                                 Shared
-                            </p>
+                            </h2>
                             <div>
                                 {loadingSharedDocuments ? (
                                     <p className="py-1 text-sm text-muted-foreground">
@@ -297,7 +298,10 @@ export default function DashboardSidebar({
                                                             : "text-muted-foreground hover:bg-muted hover:text-foreground"}
                                                     `}
                                                 >
-                                                    <span className="truncate">
+                                                    <span className="flex items-center gap-1">
+                                                        <FileText
+                                                            className="size-4 text-blue-500"
+                                                        />
                                                         {document.title ||
                                                             "Untitled document"}
                                                     </span>

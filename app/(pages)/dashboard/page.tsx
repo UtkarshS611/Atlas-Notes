@@ -132,9 +132,9 @@ export default function DashboardPage() {
             {privateDocuments.length > 0 && (
                 <section className="mb-10">
                     <div className="mb-2 flex items-center justify-between">
-                        <p className="uppercase">
+                        <h2 className="uppercase font-semibold">
                             Private Documents
-                        </p>
+                        </h2>
                     </div>
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         {privateDocuments.map(
@@ -178,9 +178,9 @@ export default function DashboardPage() {
             {sharedDocuments.length > 0 && (
                 <section>
                     <div className="mb-2 flex items-center justify-between">
-                        <p className="uppercase">
+                        <h2 className="uppercase font-semibold">
                             Shared Documents
-                        </p>
+                        </h2>
                     </div>
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         {sharedDocuments.map(

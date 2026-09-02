@@ -17,9 +17,8 @@ export default function Hero() {
                         <span className="text-muted-foreground">Introducing Atlas Notes</span>
                         <ArrowRight className="size-3.5" />
                     </Link>
-
                     <div className="mx-auto mb-12 mt-8 flex max-w-3xl flex-col justify-center gap-4 text-center md:gap-6">
-                        <h1 className="text-balance text-6xl font-medium tracking-tight md:text-7xl">
+                        <h1 className="text-balance text-4xl font-medium tracking-tight md:text-6xl">
                             Write together. Think better.
                         </h1>
                         <p className='text-sm lg:text-base tracking-wide max-w-2xl mx-auto'>
