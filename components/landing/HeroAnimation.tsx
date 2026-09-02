@@ -324,7 +324,7 @@ function MobileHeroAnimation() {
 
             {/* Card 4 */}
             <motion.div
-                className="absolute top-6/10 left-1/5 hidden sm:block"
+                className="absolute top-7/10 left-1/5 hidden sm:block"
                 animate={{
                     x: [0, -1.5, 1, -2, 0.5, 0],
                     y: [0, 2, -1.5, 1, -2, 0],
@@ -337,7 +337,7 @@ function MobileHeroAnimation() {
                 }}
             >
                 <ImageGlassCard
-                    className="h-82 w-82 md:w-92 md:h-92 -translate-x-1/2 -translate-y-1/2"
+                    className="h-72 w-72 -translate-x-1/2 -translate-y-1/2"
                     backgroundImage="/hero/animations/animationBgFive.avif"
                     mainImage="/hero/cardTop.png"
                 />
