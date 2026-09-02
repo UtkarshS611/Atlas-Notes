@@ -1,27 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-
 import * as Y from "yjs";
 
-import {
-    useEditor,
-    EditorContent,
-} from "@tiptap/react";
+import { HocuspocusProvider } from "@hocuspocus/provider";
+
+import { useEditor, EditorContent } from "@tiptap/react";
 
 import StarterKit from "@tiptap/starter-kit";
-
-import TextStyle from "@tiptap/extension-text-style";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import TextAlign from "@tiptap/extension-text-align";
 
 import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCaret from "@tiptap/extension-collaboration-caret";
-
-import { HocuspocusProvider } from "@hocuspocus/provider";
-
-import { createClient } from "@/lib/supabase/client";
 
 import { Button } from "@/components/ui/button";
 
@@ -41,62 +32,21 @@ import {
     LuSubscript,
 } from "react-icons/lu";
 
-interface TextEditorProps {
-    documentId: string;
-}
+import {
+    useCollaboration,
+} from "@/components/dashboard/CollaborationContext";
 
-export default function TextEditor({
-    documentId,
-}: TextEditorProps) {
-    const [accessToken, setAccessToken] = useState<string | null>(null);
-    const ydoc = useMemo(() => {
-        return new Y.Doc();
-    }, []);
-    useEffect(() => {
-        const supabase = createClient();
+export default function TextEditor() {
 
-        const getSession = async () => {
-            const {
-                data: { session },
-            } = await supabase.auth.getSession();
-
-            setAccessToken(session?.access_token ?? null);
-        };
-
-        getSession();
-
-        const {
-            data: { subscription },
-        } = supabase.auth.onAuthStateChange(
-            (_event, session) => {
-                setAccessToken(
-                    session?.access_token ?? null
-                );
-            }
-        );
-
-        return () => {
-            subscription.unsubscribe();
-        };
-    }, []);
-    const provider = useMemo(() => {
-        if (!accessToken) {
-            return null;
-        }
-
-        return new HocuspocusProvider({
-            url: "ws://localhost:3001",
-            name: `document-${documentId}`,
-            document: ydoc,
-            token: accessToken,
-        });
-    }, [
-        accessToken,
-        documentId,
+    const {
+        user,
+        userColor,
         ydoc,
-    ]);
+        provider,
+    } = useCollaboration();
 
-    if (!provider) {
+    if (!user || !ydoc || !provider
+    ) {
         return (
             <div className="flex min-h-100 items-center justify-center">
                 <p className="text-sm text-muted-foreground">
@@ -106,28 +56,47 @@ export default function TextEditor({
         );
     }
 
+
     return (
         <CollaborativeEditor
             ydoc={ydoc}
             provider={provider}
+            user={user}
+            userColor={userColor}
         />
     );
 }
+
 function CollaborativeEditor({
     ydoc,
     provider,
+    user,
+    userColor,
 }: {
     ydoc: Y.Doc;
     provider: HocuspocusProvider;
+    user: {
+        id: string;
+        name: string;
+    };
+    userColor: string;
 }) {
+
     const editor = useEditor({
+
         extensions: [
+
             StarterKit.configure({
                 undoRedo: false,
             }),
-            // TextStyle,
+
+
             Subscript,
+
+
             Superscript,
+
+
             TextAlign.configure({
                 types: [
                     "heading",
@@ -141,19 +110,24 @@ function CollaborativeEditor({
                 provider,
 
                 user: {
-                    name: "Test User",
-                    color: "#6366f1",
+                    id: user.id,
+                    name: user.name,
+                    color: userColor,
                 },
             }),
+
         ],
     });
+
+
     if (!editor) {
         return null;
     }
 
+
     return (
         <div className="w-full">
-            {/* Toolbar */}
+
             <header className="flex w-full items-center justify-center border-b py-2">
                 <div className="tool-group flex w-fit items-center border-x-2 px-1">
                     <Button
@@ -170,7 +144,6 @@ function CollaborativeEditor({
                     >
                         <BoldIcon />
                     </Button>
-
                     <Button
                         size="icon"
                         variant="ghost"
@@ -185,7 +158,6 @@ function CollaborativeEditor({
                     >
                         <StrikethroughIcon />
                     </Button>
-
                     <Button
                         size="icon"
                         variant="ghost"
@@ -200,7 +172,6 @@ function CollaborativeEditor({
                     >
                         <ItalicIcon />
                     </Button>
-
                     <Button
                         size="icon"
                         variant="ghost"
@@ -217,8 +188,6 @@ function CollaborativeEditor({
                     </Button>
                 </div>
 
-
-                {/* Superscript / Subscript */}
                 <div className="tool-group flex w-fit items-center border-r-2 px-1">
                     <Button
                         size="icon"
@@ -234,7 +203,6 @@ function CollaborativeEditor({
                     >
                         <LuSuperscript />
                     </Button>
-
                     <Button
                         size="icon"
                         variant="ghost"
@@ -251,8 +219,6 @@ function CollaborativeEditor({
                     </Button>
                 </div>
 
-
-                {/* Text alignment */}
                 <div className="tool-group flex w-fit items-center border-r-2 px-1">
                     <Button
                         size="icon"
@@ -268,7 +234,6 @@ function CollaborativeEditor({
                     >
                         <AlignLeft />
                     </Button>
-
                     <Button
                         size="icon"
                         variant="ghost"
@@ -284,6 +249,7 @@ function CollaborativeEditor({
                         <AlignCenter />
                     </Button>
 
+
                     <Button
                         size="icon"
                         variant="ghost"
@@ -298,6 +264,7 @@ function CollaborativeEditor({
                     >
                         <AlignRight />
                     </Button>
+
 
                     <Button
                         size="icon"
@@ -316,8 +283,6 @@ function CollaborativeEditor({
                 </div>
             </header>
 
-
-            {/* Editor */}
             <EditorContent
                 editor={editor}
                 className="mx-auto mt-12 max-w-4xl"

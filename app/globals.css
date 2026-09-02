@@ -182,9 +182,46 @@ h6 {
   background: highlight;
 }
 
-.hero {
-  background-image: url("/hero/heroBgDesktop.avif");
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.tiptap .collaboration-carets__caret {
+  position: relative;
+  margin-left: 1.5px;
+  margin-right: 1.5px;
+
+  border-left: 2px solid currentColor;
+  border-right: 0;
+
+  pointer-events: none;
+  word-break: normal;
+}
+
+.tiptap .collaboration-carets__label {
+  position: absolute;
+
+  left: 1px;
+  top: -1.7em;
+
+  padding: 4px 10px;
+
+  border-radius: 0.5rem 0.5rem 0.5rem 0;
+
+  background: currentColor;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+
+  white-space: nowrap;
+  user-select: none;
+
+  pointer-events: none;
+
+  z-index: 20;
+}
+
+.tiptap .collaboration-carets__selection {
+  background-color: currentColor;
+  opacity: 0.2;
+
+  pointer-events: none;
 }
