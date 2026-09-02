@@ -14,8 +14,10 @@ console.log(
     process.env.NEXT_PUBLIC_SUPABASE_URL
 );
 
+const PORT = Number(process.env.PORT);
+
 const server = new Server({
-    port: 3001,
+    port: PORT,
 
     async onAuthenticate({ token, documentName }) {
         if (!token) {
@@ -200,5 +202,5 @@ const server = new Server({
 server.listen();
 
 console.log(
-    "Hocuspocus running on port 3001"
+    `Hocuspocus running on port: ${PORT}`
 );
