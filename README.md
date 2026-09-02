@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Atlas Notes
 
-First, run the development server:
+Atlas Notes is a real-time collaborative document editor designed to make writing, organizing, and sharing ideas effortless. It provides a focused workspace where users can create private documents or collaborate with others on the same document in real time.
+
+
+
+
+## Features
+
+- Real-Time Collaboration - Multiple users can edit the same document simultaneously with live synchronization.
+
+- Private Workspaces - Create and manage documents that remain accessible only to you.
+
+- Document Sharing - Invite other users to collaborate on individual documents.
+
+- Role-Based Access - Control what owners and collaborators can do within shared documents.
+
+- Persistent Documents - Collaborative document state is persisted using Yjs and Supabase.
+
+- Live Collaborator Presence - See other users currently working on the document.
+
+- Secure Authentication - User sessions and document access are protected through Supabase Auth and server-side authorization.
+
+- Responsive Interface - Designed to provide a consistent experience across desktop and mobile devices.
+
+
+## Run Locally
+
+Clone the project
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  git clone https://github.com/UtkarshS611/Atlas-Notes.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Go to the project directory
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+  cd atlas-notes
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Install dependencies
 
-## Learn More
+```bash
+  npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+Start the frontend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+  npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Start the Hocupocus server
 
-## Deploy on Vercel
+```bash
+  npm run collab
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
