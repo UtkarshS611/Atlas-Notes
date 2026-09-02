@@ -22,7 +22,7 @@ export default function Footer() {
                 </Link>
             </div>
             <div className="w-fit mx-auto flex flex-col gap-8">
-                <h2 className="uppercase font-extrabold text-6xl lg:text-7xl xl:text-9xl text-primary relative cursor-default">
+                <h2 className="uppercase font-extrabold text-5xl lg:text-7xl xl:text-9xl text-primary relative cursor-default text-center">
                     Atlas Notes
                 </h2>
                 <div className="flex items-center justify-between">
