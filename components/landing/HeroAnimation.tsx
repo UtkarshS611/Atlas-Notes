@@ -274,7 +274,7 @@ function MobileHeroAnimation() {
                 }}
             >
                 <ImageGlassCard
-                    className="h-32 w-32 -translate-x-1/2 -translate-y-1/2"
+                    className="h-36 w-36 -translate-x-1/2 -translate-y-1/2"
                     backgroundImage="/hero/animations/animationBgFour.avif"
                     mainImage="/hero/cardTop.png"
                 />
