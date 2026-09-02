@@ -24,7 +24,7 @@ export default function RootLayout({
       className={cn("h-full antialiased")}
     >
       <body className="min-h-screen flex flex-col relative">
-        <main className="h-[400vh]">
+        <main>
           {children}
         </main>
         <Toaster position="top-right" />
