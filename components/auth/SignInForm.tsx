@@ -17,6 +17,7 @@ import {
 } from "@/lib/supabase/auth";
 
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export function SignInForm() {
     const router = useRouter();
@@ -60,7 +61,12 @@ export function SignInForm() {
     return (
         <div className="bg-background w-full max-w-md rounded-2xl px-4 py-6 shadow-2xl border border-input">
             <div className="text-center flex flex-col justify-center items-center gap-1">
-                <div className="h-12 w-12 bg-blue-400 rounded-full aspect-square my-5"></div>
+                <Image
+                    src="/logo.svg"
+                    alt="Logo"
+                    width={40}
+                    height={40}
+                />
                 <h2 className="text-4xl font-medium">Welcome Back</h2>
                 <p className="text-sm">Enter your details to get started</p>
             </div>
