@@ -274,7 +274,7 @@ function MobileHeroAnimation() {
                 }}
             >
                 <ImageGlassCard
-                    className="h-52 w-52 -translate-x-1/2 -translate-y-1/2"
+                    className="h-32 w-32 -translate-x-1/2 -translate-y-1/2"
                     backgroundImage="/hero/animations/animationBgFour.avif"
                     mainImage="/hero/cardTop.png"
                 />
@@ -295,7 +295,7 @@ function MobileHeroAnimation() {
                 }}
             >
                 <ImageGlassCard
-                    className="h-66 w-66 -translate-x-1/2 -translate-y-1/2"
+                    className="h-44 w-44 -translate-x-1/2 -translate-y-1/2"
                     backgroundImage="/hero/animations/animationBgOne.avif"
                     mainImage="/hero/cardTop.png"
                 />
@@ -316,7 +316,7 @@ function MobileHeroAnimation() {
                 }}
             >
                 <ImageGlassCard
-                    className="h-82 w-82 -translate-x-1/2 -translate-y-1/2"
+                    className="h-56 w-56 -translate-x-1/2 -translate-y-1/2"
                     backgroundImage="/hero/animations/animationBgSix.avif"
                     mainImage="/hero/cardTop.png"
                 />

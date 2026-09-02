@@ -31,7 +31,7 @@ export default function Features() {
     ]
 
     return (
-        <section className="px-8 lg:px-32 xl:px-64 py-24">
+        <section className="px-8 lg:px-32 xl:px-64 py-32 sm:py-24">
             <div className="mb-10">
                 <h2 className="font-semibold text-2xl">
                     Features
