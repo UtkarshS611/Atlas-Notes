@@ -34,7 +34,7 @@ export default function Hero() {
                                 <div className="bg-foreground/2 z-1 absolute inset-0 rounded-2xl"></div>
                                 <Image
                                     className="bg-background aspect-15/8 relative rounded-2xl"
-                                    src="/hero/animations/animationBgOne.avif"
+                                    src="/hero/heroDemo.avif"
                                     alt="app screen"
                                     width="2700"
                                     height="1440"

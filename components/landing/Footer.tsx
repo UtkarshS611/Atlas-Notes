@@ -20,12 +20,6 @@ export default function Footer() {
                 >
                     About
                 </Link>
-                <Link
-                    href={"/demo"}
-                    className="hover:bg-primary px-3 py-0.5 rounded-lg"
-                >
-                    Demo
-                </Link>
             </div>
             <div className="w-fit mx-auto flex flex-col gap-8">
                 <h2 className="uppercase font-extrabold text-6xl lg:text-7xl xl:text-9xl text-primary relative cursor-default">

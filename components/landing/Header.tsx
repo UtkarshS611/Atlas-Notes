@@ -22,8 +22,7 @@ import Image from 'next/image';
 const Header = () => {
 
     const links = [
-        { title: "About", href: "/about" },
-        { title: "Demo", href: "/demo" }
+        { title: "About", href: "/about" }
     ]
 
     return (
