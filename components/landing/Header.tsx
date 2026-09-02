@@ -17,45 +17,53 @@ import {
 } from "@/components/ui/sheet";
 
 import { MenuIcon } from 'lucide-react';
+import Image from 'next/image';
 
 const Header = () => {
 
     const links = [
         { title: "About", href: "/about" },
-        { title: "Features", href: "/features" },
         { title: "Demo", href: "/demo" }
     ]
 
     return (
         <header
-            className='w-full max-w-7xl mx-auto z-99 px-4 md:px-0'
+            className='w-full px-8 lg:px-32 xl:px-64 absolute top-0 py-4'
         >
             <nav className="flex items-center justify-between w-full relative">
-                <Link
-                    href="/"
-                    className="flex items-center gap-2"
-                >
-                    <span className="text-xl lg:text-2xl font-semibold">
-                        Atlas
-                    </span>
-                </Link>
-                <NavigationMenu className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-10 text-md">
-                    {links.map((item, index) => (
-                        <Link key={index} href={item.href} className='text-sm font-medium'>
-                            {item.title}
+                <div className='flex justify-center items-center gap-10'>
+                    <div className='flex items-center gap-1'>
+                        <Image
+                            src={"logo.svg"}
+                            alt="Atlas Logo"
+                            width={32}
+                            height={32}
+                        />
+                        <Link
+                            href="/"
+                            className="flex items-center gap-2"
+                        >
+                            <h2 className="text-xl lg:text-2xl font-semibold">
+                                Atlas Notes
+                            </h2>
                         </Link>
-                    ))}
-                </NavigationMenu>
+                    </div>
+                    <NavigationMenu className="hidden lg:flex items-center gap-6 text-md mt-1">
+                        {links.map((item, index) => (
+                            <Link key={index} href={item.href} className='text-sm font-medium'>
+                                {item.title}
+                            </Link>
+                        ))}
+                    </NavigationMenu>
+                </div>
                 <div className="hidden items-center gap-4 lg:flex">
-                    <Button
-                        className="rounded-xl px-8 py-5"
-                    >
+                    <Button>
                         Get Started
                     </Button>
                 </div>
                 <Sheet>
                     <SheetTrigger className="lg:hidden">
-                        <MenuIcon className="h-4 w-4 text-primary" />
+                        <MenuIcon className="h-4 w-4 text-black" />
                     </SheetTrigger>
                     <SheetContent side="top" className="max-h-screen overflow-auto z-999">
                         <SheetHeader>

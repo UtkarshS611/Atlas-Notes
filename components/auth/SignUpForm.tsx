@@ -245,11 +245,11 @@ export function SignUpForm() {
                 </Button>
             </div>
 
-            <p className="text-muted-foreground mt-6 text-center text-sm">
+            <p className="mt-6 text-center text-sm">
                 Already have an account?{' '}
                 <Link
                     href="/auth/sign-in"
-                    className="text-primary font-medium hover:underline"
+                    className="text-blue-500 font-medium hover:underline"
                 >
                     Sign in
                 </Link>
