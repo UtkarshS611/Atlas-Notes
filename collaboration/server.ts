@@ -1,9 +1,3 @@
-import dotenv from "dotenv";
-
-dotenv.config({
-    path: ".env.local",
-});
-
 import { Server } from "@hocuspocus/server";
 import * as Y from "yjs";
 

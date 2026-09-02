@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "collab": "node --env-file=.env --import=tsx collaboration/server.ts"
+    "collab": "node --import=tsx collaboration/server.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
