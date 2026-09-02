@@ -111,14 +111,14 @@ export default function DashboardPage() {
     if (!hasDocuments) {
 
         return (
-            <div className="flex flex-col items-center gap-10 px-4 py-32 lg:py-48">
-                <h1 className="text-center text-3xl">
+            <div className="flex flex-col items-center gap-10 px-4 py-64">
+                <h1 className="text-center text-2xl lg:text-3xl">
                     Nothing here yet 🤷‍♂️. Start by creating a new document.
                 </h1>
                 <img
                     src="/empty.svg"
                     alt="Nothing Yet"
-                    className="mx-auto max-w-64 lg:max-w-80"
+                    className="mx-auto max-w-32 lg:max-w-44"
                 />
             </div>
         );
@@ -149,7 +149,7 @@ export default function DashboardPage() {
                                             className="bg-primary absolute h-12 w-12 blur-[30px] bottom-0 right-0 translate-y-1/2 translate-x-1/2 z-99 rounded-full aspect-square"
                                         />
                                         <div className="flex items-start gap-3">
-                                            <div className="rounded-full aspect-square p-3 text-black bg-primary/40">
+                                            <div className="rounded-full aspect-square p-3 text-black bg-primary/40 dark:bg-primary/80 dark:text-white">
                                                 <FileText
                                                     className="size-5"
                                                 />
@@ -195,7 +195,7 @@ export default function DashboardPage() {
                                             className="bg-blue-500 absolute h-12 w-12 blur-[30px] bottom-0 right-0 translate-y-1/2 translate-x-1/2 z-99 rounded-full aspect-square"
                                         />
                                         <div className="flex items-center gap-3">
-                                            <div className="rounded-full p-3 aspect-square bg-blue-500/40 text-black">
+                                            <div className="rounded-full p-3 aspect-square bg-blue-500/40 dark:bg-blue-500 text-black dark:text-white">
                                                 <FileText
                                                     className="size-5"
                                                 />

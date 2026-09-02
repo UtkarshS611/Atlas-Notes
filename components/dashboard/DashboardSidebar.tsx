@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import ShareDocumentDialog from "@/components/dashboard/SharedDocumentDialog";
+import DeleteDocumentDialog from "@/components/dashboard/DeleteDocumentDialog";
 
 import { FileText, Plus } from "lucide-react";
 import Image from "next/image";
@@ -208,7 +209,9 @@ export default function DashboardSidebar({
                                 href="/dashboard"
                                 className="text-xl font-semibold tracking-tight"
                             >
-                                Atlas Notes
+                                <h2>
+                                    Atlas Notes
+                                </h2>
                             </Link>
                         </div>
 
@@ -251,7 +254,7 @@ export default function DashboardSidebar({
                                                     key={document.id}
                                                     href={`/dashboard/${document.id}`}
                                                     className={`
-                                                        block truncate rounded-lg px-2 py-2 text-sm transition-colors ${isActive ? "bg-accent text-accent-foreground font-medium" : "text-muted-foreground hover:bg-muted hover:text-foreground flex items-center gap-1"}
+                                                    flex items-center gap-1 truncate rounded-lg px-2 py-2 text-sm transition-colors ${isActive ? "bg-accent text-accent-foreground font-medium" : "text-muted-foreground hover:bg-muted hover:text-foreground"}
                                                     `}
                                                 >
                                                     <FileText
@@ -278,7 +281,7 @@ export default function DashboardSidebar({
                                         Loading...
                                     </p>
                                 ) : sharedDocuments.length === 0 ? (
-                                    <p className="py-1 text-sm text-muted-foreground">
+                                    <p className="px-2 py-1 text-sm text-muted-foreground">
                                         No shared documents
                                     </p>
                                 ) : (
@@ -327,9 +330,21 @@ export default function DashboardSidebar({
                     {/* User */}
                     <div className="shrink-0 p-3 space-y-2">
                         {currentDocumentId && (
-                            <ShareDocumentDialog
-                                documentId={currentDocumentId}
-                            />
+                            <>
+                                <ShareDocumentDialog
+                                    documentId={currentDocumentId}
+                                />
+                                <DeleteDocumentDialog
+                                    documentId={currentDocumentId}
+                                    documentTitle={
+                                        documents.find(
+                                            (document) =>
+                                                document.id ===
+                                                currentDocumentId
+                                        )?.title
+                                    }
+                                />
+                            </>
                         )}
                         <User />
                     </div>

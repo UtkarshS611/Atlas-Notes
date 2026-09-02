@@ -54,7 +54,7 @@ export default function User() {
         <div className="rounded-xl bg-sidebar-primary text-black">
             <div className="flex flex-col gap-3 rounded-lg px-3 py-2">
                 <div className="flex items-center gap-3">
-                    <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-medium">
+                    <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-medium dark:text-white">
                         {initials}
                     </div>
                     <div className="min-w-0">
