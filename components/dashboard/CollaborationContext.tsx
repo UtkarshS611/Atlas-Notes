@@ -144,24 +144,17 @@ export function CollaborationProvider({
 
     }, [documentId]);
 
-    const provider = useMemo(() => {
+    const collaborationUrl = process.env.NEXT_PUBLIC_COLLABORATION_URL;
 
-        if (
-            !documentId ||
-            !ydoc ||
-            !accessToken
-        ) {
+    const provider = useMemo(() => {
+        if (!documentId || !ydoc || !accessToken || !collaborationUrl) {
             return null;
         }
 
-
         return new HocuspocusProvider({
-            url: "ws://localhost:3001",
-
+            url: collaborationUrl,
             name: `document-${documentId}`,
-
             document: ydoc,
-
             token: accessToken,
         });
 

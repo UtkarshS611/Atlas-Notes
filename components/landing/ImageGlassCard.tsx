@@ -16,7 +16,8 @@ export default function ImageGlassCard({
             <Image
                 src={backgroundImage}
                 alt=""
-                fill
+                width={200}
+                height={200}
                 priority
                 className="object-cover h-full w-full blur-[10px] rounded-[35px]"
             />

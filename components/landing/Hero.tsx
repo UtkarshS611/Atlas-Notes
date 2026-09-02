@@ -14,7 +14,7 @@ export default function Hero() {
             <HeroAnimation />
 
             {/* Hero content */}
-            <div className="lg:text-center space-y-4 p-8 w-full lg:w-fit">
+            <div className="lg:text-center space-y-4 p-8 w-full lg:w-fit -mb-10 lg:mb-0">
                 <h1 className="font-semibold text-4xl lg:text-5xl">
                     Think Together, Write Together.
                 </h1>
