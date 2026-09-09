@@ -89,7 +89,7 @@ export default function ForgotPasswordForm() {
 
                     {message && (
                         <p className="text-sm text-green-600 truncate">
-                            {/* {message} */}
+                            {message}
                         </p>
                     )}
 
