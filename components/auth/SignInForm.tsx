@@ -94,13 +94,20 @@ export function SignInForm() {
                 </div>
 
                 <div className="space-y-2">
-                    <label
-                        htmlFor="password"
-                        className="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50">
-                        Password
-                    </label>
+                    <div className="flex items-center justify-between">
+                        <label
+                            htmlFor="password"
+                            className="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50">
+                            Password
+                        </label>
+                        <Link
+                            href="/auth/forgot-password"
+                            className="text-sm hover:underline text-blue-500"
+                        >
+                            Forgot password?
+                        </Link>
+                    </div>
                     <div className="relative">
-
                         <input
                             type={typePassword}
                             placeholder="Password"
@@ -111,13 +118,13 @@ export function SignInForm() {
                             <Eye
                                 onClick={togglePasswordVisibility}
                                 size={18}
-                                className="absolute right-2 top-1/2 -translate-y-1/2"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
                             />
                             :
                             <EyeOff
                                 onClick={togglePasswordVisibility}
                                 size={18}
-                                className="absolute right-2 top-1/2 -translate-y-1/2"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
                             />
                         }
                     </div>

@@ -72,9 +72,7 @@ export function SignUpForm() {
             });
 
             setServerError(
-                error instanceof Error
-                    ? error.message
-                    : "Something went wrong"
+                error instanceof Error ? error.message : "Something went wrong"
             );
         }
     };
@@ -140,13 +138,13 @@ export function SignUpForm() {
                             <Eye
                                 onClick={togglePasswordVisibility}
                                 size={18}
-                                className="absolute right-2 top-1/2 -translate-y-1/2"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
                             />
                             :
                             <EyeOff
                                 onClick={togglePasswordVisibility}
                                 size={18}
-                                className="absolute right-2 top-1/2 -translate-y-1/2"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
                             />
                         }
                     </div>
@@ -175,13 +173,13 @@ export function SignUpForm() {
                             <Eye
                                 onClick={togglePasswordVisibility}
                                 size={18}
-                                className="absolute right-2 top-1/2 -translate-y-1/2"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
                             />
                             :
                             <EyeOff
                                 onClick={togglePasswordVisibility}
                                 size={18}
-                                className="absolute right-2 top-1/2 -translate-y-1/2"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
                             />
                         }
                     </div>

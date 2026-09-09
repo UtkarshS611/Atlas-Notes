@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { Button } from '../ui/button';
+import { Button, buttonVariants } from '../ui/button';
 
 import {
     NavigationMenu,
@@ -56,9 +56,12 @@ const Header = () => {
                     </NavigationMenu>
                 </div>
                 <div className="hidden items-center gap-4 lg:flex">
-                    <Button>
+                    <Link
+                        href={"/dashboard"}
+                        className={`${buttonVariants({ variant: "default" })}`}
+                    >
                         Get Started
-                    </Button>
+                    </Link>
                 </div>
                 <Sheet>
                     <SheetTrigger className="lg:hidden">
@@ -84,12 +87,12 @@ const Header = () => {
                                 ))}
                             </div>
                             <div className="mt-6 flex flex-col gap-4">
-                                <Button
-                                    className="rounded-xl"
-                                    size="lg"
+                                <Link
+                                    href={"/dashboard"}
+                                    className={`${buttonVariants({ variant: "default" })}`}
                                 >
                                     Get Started
-                                </Button>
+                                </Link>
                             </div>
                         </div>
                     </SheetContent>
