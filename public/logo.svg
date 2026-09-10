@@ -1,4 +1,13 @@
-<svg width="200" height="200" viewBox="0 0 200 200" fill="none"
-    xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M100 150C127.614 150 150 127.614 150 100C150 72.3858 127.614 50 100 50C72.3858 50 50 72.3858 50 100C50 127.614 72.3858 150 100 150ZM100 200C155.228 200 200 155.228 200 100C200 44.7715 155.228 0 100 0C44.7715 0 0 44.7715 0 100C0 155.228 44.7715 200 100 200Z" fill="#0096c7"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 72">
+    <defs>
+        <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8"/>
+            <stop offset="50%" stop-color="#3b82f6"/>
+            <stop offset="100%" stop-color="#190096"/>
+        </linearGradient>
+    </defs>
+
+    <rect width="62" height="72" rx="6" fill="url(#gradient)" />
+
+    <rect x="2" y="3" width="58" height="8" rx="4" fill="white" />
 </svg>

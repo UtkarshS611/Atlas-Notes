@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/sheet";
 
 import { MenuIcon } from 'lucide-react';
-import Image from 'next/image';
+import Logo from '@/components/landing/logo';
 
 const Header = () => {
 
@@ -27,22 +27,26 @@ const Header = () => {
 
     return (
         <header
-            className='w-full px-8 lg:px-32 xl:px-64 absolute top-0 py-4'
+            className='w-full max-w-xs sm:max-w-sm md:max-w-xl lg:max-w-2xl mx-auto bg-black text-white p-2 rounded-b-2xl relative'
         >
+            <div
+                className='translate-x-full header-right'
+            >
+            </div>
+            <div
+                className='-translate-x-full header-left'
+            >
+            </div>
+
             <nav className="flex items-center justify-between w-full relative">
                 <div className='flex justify-center items-center gap-10'>
-                    <div className='flex items-center gap-1'>
-                        <Image
-                            src={"logo.svg"}
-                            alt="Atlas Logo"
-                            width={32}
-                            height={32}
-                        />
+                    <div className='flex items-center gap-2'>
+                        <Logo />
                         <Link
                             href="/"
                             className="flex items-center gap-2"
                         >
-                            <h2 className="text-xl lg:text-2xl font-semibold">
+                            <h2 className="text-xl font-semibold">
                                 Atlas Notes
                             </h2>
                         </Link>
@@ -58,14 +62,14 @@ const Header = () => {
                 <div className="hidden items-center gap-4 lg:flex">
                     <Link
                         href={"/dashboard"}
-                        className={`${buttonVariants({ variant: "default" })}`}
+                        className={`${buttonVariants({ variant: "default", size: "lg" })} bg-white text-black! hover:bg-white hover:text-black`}
                     >
                         Get Started
                     </Link>
                 </div>
                 <Sheet>
                     <SheetTrigger className="lg:hidden">
-                        <MenuIcon className="h-4 w-4 text-black" />
+                        <MenuIcon className="h-4 w-4 text-white" />
                     </SheetTrigger>
                     <SheetContent side="top" className="max-h-screen overflow-auto z-999">
                         <SheetHeader>
@@ -98,7 +102,6 @@ const Header = () => {
                     </SheetContent>
                 </Sheet>
             </nav>
-
         </header>
     )
 }

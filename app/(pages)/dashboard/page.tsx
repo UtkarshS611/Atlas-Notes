@@ -144,18 +144,18 @@ export default function DashboardPage() {
                                     href={`/dashboard/${document.id}`}
                                     className="group"
                                 >
-                                    <div className="relative flex flex-col justify-between rounded-lg border border-primary shadow-sm p-5 transition-colors hover:bg-muted overflow-hidden">
+                                    <div className="relative flex flex-col justify-between rounded-lg border border-green-500 shadow-sm p-5 transition-colors hover:bg-muted overflow-hidden">
                                         <div
-                                            className="bg-primary absolute h-12 w-12 blur-[30px] bottom-0 right-0 translate-y-1/2 translate-x-1/2 z-99 rounded-full aspect-square"
+                                            className="bg-green-500 absolute h-12 w-12 blur-[30px] bottom-0 right-0 translate-y-1/2 translate-x-1/2 z-99 rounded-full aspect-square"
                                         />
                                         <div className="flex items-start gap-3">
-                                            <div className="rounded-full aspect-square p-3 text-black bg-primary/40 dark:bg-primary/80 dark:text-white">
+                                            <div className="rounded-full aspect-square p-3 text-green-500 bg-green-500/20 dark:bg-primary/80 dark:text-white">
                                                 <FileText
                                                     className="size-5"
                                                 />
                                             </div>
                                             <div>
-                                                <h3 className="font-medium">
+                                                <h3 className="font-semibold">
                                                     {document.title}
                                                 </h3>
                                                 <p className="text-xs text-muted-foreground">
@@ -195,13 +195,13 @@ export default function DashboardPage() {
                                             className="bg-blue-500 absolute h-12 w-12 blur-[30px] bottom-0 right-0 translate-y-1/2 translate-x-1/2 z-99 rounded-full aspect-square"
                                         />
                                         <div className="flex items-center gap-3">
-                                            <div className="rounded-full p-3 aspect-square bg-blue-500/40 dark:bg-blue-500 text-black dark:text-white">
+                                            <div className="rounded-full p-3 aspect-square bg-blue-500/20 dark:bg-blue-500 text-black dark:text-white">
                                                 <FileText
                                                     className="size-5"
                                                 />
                                             </div>
                                             <div>
-                                                <h3 className="font-medium">
+                                                <h3 className="font-semibold">
                                                     {document.title}
                                                 </h3>
                                                 <p className="text-xs text-muted-foreground">

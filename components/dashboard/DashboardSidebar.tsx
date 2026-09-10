@@ -7,6 +7,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 
+import Logo from "@/components/landing/logo";
 import User from "@/components/dashboard/User";
 
 import {
@@ -24,7 +25,6 @@ import ShareDocumentDialog from "@/components/dashboard/SharedDocumentDialog";
 import DeleteDocumentDialog from "@/components/dashboard/DeleteDocumentDialog";
 
 import { FileText, Plus } from "lucide-react";
-import Image from "next/image";
 
 interface Document {
     id: string;
@@ -199,12 +199,7 @@ export default function DashboardSidebar({
                     {/* Header */}
                     <div className="shrink-0">
                         <div className="flex items-center gap-2 px-5 py-3">
-                            <Image
-                                src={"/logo.svg"}
-                                alt="Atlas Notes logo"
-                                width={32}
-                                height={32}
-                            />
+                            <Logo/>
                             <Link
                                 href="/dashboard"
                                 className="text-xl font-semibold tracking-tight"

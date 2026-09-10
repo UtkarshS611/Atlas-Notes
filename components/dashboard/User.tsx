@@ -51,10 +51,10 @@ export default function User() {
         .toUpperCase();
 
     return (
-        <div className="rounded-xl bg-sidebar-primary text-black">
+        <div className="rounded-xl bg-accent shadow-sm">
             <div className="flex flex-col gap-3 rounded-lg px-3 py-2">
                 <div className="flex items-center gap-3">
-                    <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-medium dark:text-white">
+                    <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-yellow-500/20 text-sm font-medium text-yellow-500">
                         {initials}
                     </div>
                     <div className="min-w-0">

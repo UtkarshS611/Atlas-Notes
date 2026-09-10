@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full antialiased dark")}
+      className={cn("h-full antialiased")}
     >
       <body className="min-h-screen flex flex-col relative">
         <main>
