@@ -20,7 +20,7 @@ import {
 
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
-import Image from "next/image"
+import Logo from "@/components/landing/logo"
 
 export function SignUpForm() {
 
@@ -86,12 +86,7 @@ export function SignUpForm() {
     return (
         <div className="bg-background w-full max-w-md rounded-2xl px-4 py-6 shadow-xl border border-input">
             <div className="text-center flex flex-col justify-center items-center gap-1">
-                <Image
-                    src="/logo.svg"
-                    alt="Logo"
-                    width={40}
-                    height={40}
-                />
+                <Logo/>
                 <h2 className="text-4xl font-medium">Create Account</h2>
                 <p className="text-sm">Enter your details to get started</p>
             </div>

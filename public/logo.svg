@@ -7,7 +7,6 @@
         </linearGradient>
     </defs>
 
-    <rect width="62" height="72" rx="6" fill="url(#gradient)" />
-
-    <rect x="2" y="3" width="58" height="8" rx="4" fill="white" />
+    <rect width="62" height="72" rx="12" fill="url(#gradient)" />
+    <rect x="4" y="6" width="54" height="8" rx="4" fill="white" />
 </svg>

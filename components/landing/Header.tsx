@@ -21,10 +21,6 @@ import Logo from '@/components/landing/logo';
 
 const Header = () => {
 
-    const links = [
-        { title: "About", href: "/about" }
-    ]
-
     return (
         <header
             className='w-full max-w-xs sm:max-w-sm md:max-w-xl lg:max-w-2xl mx-auto bg-black text-white p-2 rounded-b-2xl relative'
@@ -37,7 +33,6 @@ const Header = () => {
                 className='-translate-x-full header-left'
             >
             </div>
-
             <nav className="flex items-center justify-between w-full relative">
                 <div className='flex justify-center items-center gap-10'>
                     <div className='flex items-center gap-2'>
@@ -51,15 +46,8 @@ const Header = () => {
                             </h2>
                         </Link>
                     </div>
-                    <NavigationMenu className="hidden lg:flex items-center gap-6 text-md mt-1">
-                        {links.map((item, index) => (
-                            <Link key={index} href={item.href} className='text-sm font-medium'>
-                                {item.title}
-                            </Link>
-                        ))}
-                    </NavigationMenu>
                 </div>
-                <div className="hidden items-center gap-4 lg:flex">
+                <div className="flex items-center gap-4">
                     <Link
                         href={"/dashboard"}
                         className={`${buttonVariants({ variant: "default", size: "lg" })} bg-white text-black! hover:bg-white hover:text-black`}
@@ -67,40 +55,6 @@ const Header = () => {
                         Get Started
                     </Link>
                 </div>
-                <Sheet>
-                    <SheetTrigger className="lg:hidden">
-                        <MenuIcon className="h-4 w-4 text-white" />
-                    </SheetTrigger>
-                    <SheetContent side="top" className="max-h-screen overflow-auto z-999">
-                        <SheetHeader>
-                            <SheetTitle>
-                                <Link
-                                    href="/"
-                                    className="flex items-center gap-2 font-title text-2xl"
-                                >
-                                    Atlas
-                                </Link>
-                            </SheetTitle>
-                        </SheetHeader>
-                        <div className="flex flex-col p-4 font-title">
-                            <div className="flex flex-col items-start gap-6">
-                                {links.map((link, index) => (
-                                    <Link key={index} href={link.href}>
-                                        {link.title}
-                                    </Link>
-                                ))}
-                            </div>
-                            <div className="mt-6 flex flex-col gap-4">
-                                <Link
-                                    href={"/dashboard"}
-                                    className={`${buttonVariants({ variant: "default" })}`}
-                                >
-                                    Get Started
-                                </Link>
-                            </div>
-                        </div>
-                    </SheetContent>
-                </Sheet>
             </nav>
         </header>
     )
