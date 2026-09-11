@@ -7,10 +7,10 @@ export default function Footer() {
     return (
         <footer className="bg-primary pt-44 pb-8 text-white flex justify-center flex-col">
             <div className="w-fit mx-auto flex flex-col gap-8">
-                <h2 className="italic uppercase font-extrabold text-4xl md:text-6xl lg:text-7xl xl:text-9xl relative cursor-default text-center">
+                <h2 className="italic uppercase font-extrabold text-7xl xl:text-9xl relative cursor-default text-center">
                     Atlas Notes
                 </h2>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-2">
                     <p className="text-xs">
                         &copy; {year} Atlas Notes. All rights reserved.
                     </p>
